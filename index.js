@@ -4,16 +4,15 @@ $(document).ready(function() {
         var count = 10;
         var timerStart = 1;
         var playerScore = 0;
-    
+        var highScore = 0;
+
         var countdown = function () {
             var counter = setInterval(timer, 1000);
             function timer () {
                 count = count - 1;
                 if (count === 0) {
-                    var restart = confirm('Game Over!\nYour Score is: ' + playerScore + '\nWould you like to play again?')
-                    while (restart === true) {
-                        startGame();
-                        } 
+                    restartGame();
+                    $('#timer').text(count);
                     clearInterval(counter);
                     return;
                 }
@@ -42,19 +41,25 @@ $(document).ready(function() {
             $('#equation').text(currentQuestion.equation);  
         }
         createNewQuestion();
-    
+        $('#score').text('Player Score: ' + playerScore);
+        $('#highScore').text('High Score: ' + highScore);
+
         var checkAnswer = function (answerInput, answer) {
             if (answerInput === answer) {
                 count += 1;
                 playerScore += 1;
                 createNewQuestion();
                 $('#timer').text(count);
-                $('#score').text('Player Score: ' + playerScore)
+                $('#score').text('Player Score: ' + playerScore);
                 $('#answerInput').val('');
                 console.log('Correct');
             } else {
                 console.log(answerInput);
                 console.log('Wrong!');
+            }
+            if (playerScore > highScore) {
+                highScore = playerScore;
+                $('#highScore').text('High Score: ' + highScore);
             }
           };
     
